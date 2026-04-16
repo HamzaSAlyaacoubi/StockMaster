@@ -12,9 +12,9 @@
     label {
         @apply text-lg font-bold;
     }
-    button {
+    /* button {
         @apply bg-blue-200 py-3 px-5 rounded-xl font-bold hover:cursor-pointer hover:shadow-md hover:bg-blue-400 active:translate-y-1 duration-300;
-    }
+    } */
   * {
     @apply border-border outline-ring/50;
     }
@@ -23,6 +23,12 @@
     }
   html {
     @apply font-sans;
+    }
+}
+
+@layer utilities {
+    .icon-md{
+        @apply !size-5;
     }
 }
 

@@ -2,7 +2,8 @@ import { Link } from "react-router";
 import { FaPlus } from "react-icons/fa";
 import { useEffect } from "react";
 import { useContext } from "react";
-import { ProductsContext } from "../contexts/ProductsContext";
+import { ProductsContext } from "../../contexts/ProductsContext";
+import DemoPage from "@/components/payments/page";
 
 const ProductList = () => {
   const { products, setProducts } = useContext(ProductsContext);
@@ -27,14 +28,15 @@ const ProductList = () => {
     setProducts(localProducts);
   }, []);
   return (
-    <>
-      <Link to="/products/add">
-        <span className="text-3xl">
-          <FaPlus />
-        </span>
+    <div className="">
+      <Link className="" to="/products/add">
+        <div className="text-3xl w-full flex justify-end ">
+          <FaPlus className="hover:bg-gray-200 rounded-sm"/>
+        </div>
       </Link>
       <div className="grid grid-cols-4">{productsJSX}</div>
-    </>
+      <DemoPage />
+    </div>
   );
 };
 
