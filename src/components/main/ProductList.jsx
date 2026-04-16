@@ -8,7 +8,7 @@ import DemoPage from "@/components/payments/page";
 const ProductList = () => {
   const { products, setProducts } = useContext(ProductsContext);
 
-  const productsJSX = products.map((p) => {
+  const productsJSX = products?.map((p) => {
     return (
       <div
         key={p.id}
@@ -34,7 +34,7 @@ const ProductList = () => {
           <FaPlus className="hover:bg-gray-200 rounded-sm"/>
         </div>
       </Link>
-      <div className="grid grid-cols-4">{productsJSX}</div>
+      <div className="grid grid-cols-4">{productsJSX ? productsJSX : "Not product found"}</div>
       <DemoPage />
     </div>
   );
