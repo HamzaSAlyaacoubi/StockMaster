@@ -6,15 +6,6 @@
 @custom-variant dark (&:is(.dark *));
 
 @layer base {
-    input {
-        @apply w-full border-2 border-gray-800 px-3 py-2 mb-2 rounded-xl text-lg focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 duration-100;
-    }
-    label {
-        @apply text-lg font-bold;
-    }
-    /* button {
-        @apply bg-blue-200 py-3 px-5 rounded-xl font-bold hover:cursor-pointer hover:shadow-md hover:bg-blue-400 active:translate-y-1 duration-300;
-    } */
   * {
     @apply border-border outline-ring/50;
     }
@@ -27,9 +18,7 @@
 }
 
 @layer utilities {
-    .icon-md{
-        @apply !size-5;
-    }
+    
 }
 
 @theme inline {

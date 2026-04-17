@@ -7,14 +7,21 @@ import { v4 as uuidv4 } from "uuid";
 
 // Components
 import ProductList from "./components/main/ProductList";
-import ProductForm from "./components/main/ProductForm";
 import Dashboard from "./components/main/Dashboard";
-import { CardDemo } from "./components/main/CardDemo";
 
 // Context
 import { ProductsContext } from "./contexts/ProductsContext";
+
 import { AppSidebar } from "./components/main/AppSidebar";
-import { SidebarProvider, SidebarTrigger } from "./components/ui/sidebar";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "./components/ui/sidebar";
+import { SiteHeader } from "./components/main/site-header";
+
+import { ThemeProvider } from "@/components/theme/theme-provider";
+import FetchProducts from "./contexts/fetchProducts";
 
 function App() {
   const initialProducts = [
@@ -75,23 +82,33 @@ function App() {
   const [open, setOpen] = React.useState(true);
 
   return (
-    <ProductsContext.Provider value={{ products, setProducts }}>
-      <main className="flex bg-blue-200">
-        <SidebarProvider open={open} onOpenChange={setOpen}>
-          <AppSidebar open={open} className="w-[20%]" />
-          <section className="flex flex-col justify-start items-start bg-amber-50 w-full p-6">
-            <SidebarTrigger className="p-6 -mt-4 -ml-6 hover:bg-gray-100" />
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/products">
-                <Route index element={<ProductList />} />
-                <Route path="add" element={<CardDemo />} />
-              </Route>
-            </Routes>
-          </section>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <ProductsContext.Provider value={{ products, setProducts }}>
+        <FetchProducts />
+        <SidebarProvider
+          open={open}
+          onOpenChange={setOpen}
+          style={{
+            "--sidebar-width": "calc(var(--spacing) * 72)",
+            "--header-height": "calc(var(--spacing) * 12)",
+          }}
+        >
+          <AppSidebar variant="inset" open={open} />
+          <SidebarInset>
+            <SiteHeader />
+
+            <section className="px-3">
+              <Routes>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/products">
+                  <Route index element={<ProductList />} />
+                </Route>
+              </Routes>
+            </section>
+          </SidebarInset>
         </SidebarProvider>
-      </main>
-    </ProductsContext.Provider>
+      </ProductsContext.Provider>
+    </ThemeProvider>
   );
 }
 

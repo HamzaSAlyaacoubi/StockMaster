@@ -15,7 +15,7 @@ async function getData() {
   ]
 }
 
-export default function DemoPage() {
+export default function ProductsTable() {
   const [data, setData] = useState([])
 
   const {products, setProducts} = useContext(ProductsContext)

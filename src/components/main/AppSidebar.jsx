@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Sidebar,
   SidebarContent,
@@ -29,6 +29,7 @@ import {
 import { CustomTrigger } from "../ui/sidebar-triger";
 import { Link } from "react-router";
 import { LuShoppingBag } from "react-icons/lu";
+import { House, ShoppingBag } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -42,96 +43,69 @@ import {
 } from "../ui/collapsible";
 import { TooltipProvider } from "../ui/tooltip";
 
-export function AppSidebar({open}) {
-
+import DarkLogo from "/src/assets/dark-logo.png";
+import DarkLogoText from "/src/assets/dark-logo-text.png";
+import LightLogo from "/src/assets/light-logo.png";
+import LightLogoText from "/src/assets/light-logo-text.png";
+import { useTheme } from "../theme/theme-provider";
+export function AppSidebar({ open, ...props }) {
   const routes = [
     {
       name: "Dashborad",
       url: "/",
-      icon: Home,
+      icon: House,
     },
     {
       name: "Products",
       url: "/products",
-      icon: LuShoppingBag,
+      icon: ShoppingBag,
     },
   ];
 
+  const {theme} = useTheme();
+
   return (
-      <Sidebar collapsible="icon">
-        <SidebarHeader className="h-16 mb-4 bg-gray-200 items-center justify-center font-bold text-2xl">
-          {open ? "Stock Master" : "SM"}
-        </SidebarHeader>
-        <SidebarContent>
+    <Sidebar collapsible="icon" {...props}>
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <div className="flex items-center gap-2">
+                {/* Logo icon (always visible) */}
+                <img
+                  className="w-6 shrink-0"
+                  src={theme === "light" ? DarkLogo : LightLogo}
+                  alt="logo"
+                />
+
+                {/* Logo text (auto hidden when collapsed like menu items) */}
+                <img
+                  className="w-30"
+                  src={theme === "light" ? DarkLogoText : LightLogoText}
+                  alt="logo text"
+                />
+              </div>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
+
+      <SidebarContent>
+        <SidebarMenu >
           {routes.map((r) => {
             return (
               <SidebarMenuItem key={r.name}>
-                <SidebarMenuButton
-                  className="text-xl p-5 hover:bg-gray-100 "
-                  asChild
-                >
-                  <Link to={r.url}>
-                    {<r.icon className="icon-md" />}
-                    {r.name}
+                <SidebarMenuButton asChild>
+                  <Link to={r.url} className="flex items-center gap-2">
+                    {r.icon && <r.icon className="shrink-0" />}
+                    <span>{r.name}</span>
                   </Link>
                 </SidebarMenuButton>
-
-                {r.childrens && (
-                  <>
-                    <SidebarMenuAction>
-                      <ChevronDown className="ml-auto" />
-                    </SidebarMenuAction>
-
-                    <SidebarMenuSub>
-                      <SidebarMenuSubItem>
-                        <SidebarMenuSubButton>Hello</SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                    </SidebarMenuSub>
-                  </>
-                )}
               </SidebarMenuItem>
             );
           })}
-        </SidebarContent>
-        {/* <SidebarContent>
-          {routes.map((item) => (
-            <Collapsible
-              key={item.name}
-              asChild
-              defaultOpen={item.isActive}
-              className="group/collapsible"
-            >
-              <SidebarMenuItem>
-                <CollapsibleTrigger asChild>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      {item.icon && item.icon}
-                      <span>{item.name}</span>
-                      {item.childrens && (
-                        <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                      )}
-                    </a>
-                  </SidebarMenuButton>
-                </CollapsibleTrigger>
-                {item.childrens?.map((subItem) => (
-                  <CollapsibleContent>
-                    <SidebarMenuSub>
-                      <SidebarMenuSubItem key={subItem.name}>
-                        <SidebarMenuSubButton asChild>
-                          <a href={subItem.url}>
-                            <span>{subItem.name}</span>
-                          </a>
-                        </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                    </SidebarMenuSub>
-                  </CollapsibleContent>
-                ))}
-              </SidebarMenuItem>
-            </Collapsible>
-          ))}
-        </SidebarContent> */}
-        <SidebarFooter />
-      </Sidebar>
-      
+        </SidebarMenu>
+      </SidebarContent>
+    </Sidebar>
   );
 }
